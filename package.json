@@ -15,5 +15,14 @@
   "bugs": {
     "url": "https://github.com/co-rama/door-knob-api/issues"
   },
-  "homepage": "https://github.com/co-rama/door-knob-api#readme"
+  "homepage": "https://github.com/co-rama/door-knob-api#readme",
+  "dependencies": {
+    "bcrypt": "^5.0.1",
+    "crypto": "^1.0.1",
+    "dotenv": "^10.0.0",
+    "express": "^4.17.1",
+    "jsonwebtoken": "^8.5.1",
+    "mongoose": "^5.13.3",
+    "nodemo": "^1.0.0"
+  }
 }
