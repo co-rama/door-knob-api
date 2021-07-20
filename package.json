@@ -1,0 +1,19 @@
+{
+  "name": "door-lock-api",
+  "version": "1.0.0",
+  "description": "",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/co-rama/door-knob-api.git"
+  },
+  "author": "Corama Yunus",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/co-rama/door-knob-api/issues"
+  },
+  "homepage": "https://github.com/co-rama/door-knob-api#readme"
+}
