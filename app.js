@@ -1,6 +1,8 @@
 const express = require("express");
 const mongoose = require("mongoose");
 const path = require("path");
+const cookie_parser = require("cookie-parser");
+const bodyParser = require('body-parser');
 
 const app = express();
 require("dotenv").config();
@@ -19,7 +21,11 @@ const mongooseOptions = {
 
 // MIDDLEWARES
 app.use(express.json());
-app.use(express.urlencoded({ extended: false }));
+app.use(express.urlencoded({ extended: true }));
+app.use(cookie_parser());
+app.use(bodyParser.urlencoded({
+  extended: true
+}));
 app.use("/assets", express.static(path.join(__dirname, "assets")));
 app.use((req, res, next) => {
   res.setHeader("Access-Control-Allow-Origin", "*");

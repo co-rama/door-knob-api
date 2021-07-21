@@ -7,7 +7,7 @@ const customerSchema = new Schema({
     type: String,
     required: true,
   },
-  username: {
+  firstname: {
     type: String,
     required: true,
   },
@@ -15,7 +15,7 @@ const customerSchema = new Schema({
     type: String,
     required: true,
   },
-  location: {
+  lastname: {
     type: String,
     required: false,
   },

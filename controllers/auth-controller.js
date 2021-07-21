@@ -25,60 +25,52 @@ const validatorHelper = (password, hashedPassword, callbak) => {
 
 // CUSTOMER
 exports.postCustomerRegister = async (req, res, next) => {
-  const email = req.body.email.toLowerCase();
+  const email = req.body.email;
   const password = req.body.password;
-  const username = req.body.username;
+  const firstname = req.body.firstname;
   const mobile = req.body.mobile;
-  Customer.findOne({ email: email })
-    .then(async (customer) => {
-      if (customer) {
+  const lastname = req.body.lastname;
+  console.log(req.body);
+  try {
+    const alreadyCustomer = await Customer.findOne({ email: email });
+      if (alreadyCustomer) {
         return res.json({
           message: "CUSTOMER EXIST, USE other EMAIL",
           success: false,
         });
       }
-      const shopUser = await Shop.findOne({ email: email });
-      if (shopUser) {
-        return res.json({
-          message: "EMAIL USED for other services, USE other EMAIL",
-          success: false,
+      bcrypt
+      .hash(password, 12)
+      .then((hashedPassword) => {
+        const customer = new Customer({
+          email: email,
+          firstname: firstname,
+          password: hashedPassword,
+          mobile: mobile,
+          lastname: lastname,
         });
-      } else {
-        bcrypt
-          .hash(password, 12)
-          .then((hashedPassword) => {
-            const customer = new Customer({
-              email: email,
-              username: username,
-              password: hashedPassword,
-              mobile: mobile,
-              cart: { items: [] },
-            });
-            return customer.save();
-          })
-          .then((result) => {
-            if (!result) {
-              const error = new Error(
-                "ERROR OCCURED | COULD NOT BE REGISTERED"
-              );
-              error.statusCode = 500;
-              throw error;
-            }
-            res
-              .status(200)
-              .json({ message: "CUSTOMER REGISTERED", success: true });
-          })
-          .catch((err) => {
-            next(err);
-            // res
-            //   .status(500)
-            //   .json({ message: "ERROR OCCURED | COULD NOT BE REGISTERED" });
-          });
-      }
-    })
-    .catch((err) => next(err));
-};
+        return customer.save();
+      })
+      .then((result) => {
+        if (!result) {
+          const error = new Error(
+            "ERROR OCCURED | COULD NOT BE REGISTERED"
+          );
+          error.statusCode = 500;
+          throw error;
+        }
+        res
+          .status(200)
+          .json({ message: "CUSTOMER REGISTERED", success: true });
+        })
+        .catch((err) => {
+          next(err);
+        });
 
+  } catch (error) {
+    next(error);
+};
+}
 exports.postLogin = (req, res, next) => {
   const email = req.body.email.toLowerCase();
   const password = req.body.password;
@@ -111,11 +103,12 @@ exports.postLogin = (req, res, next) => {
           customerId: user._id.toString(),
           isLoggedIn: true,
           expiresIn: 3600,
-          username: user.username,
+          firstname: user.firstname,
         });
+
       });
     })
-    .catch((err) => {
+    .catch(err => {
       next(err);
-    });
-};
+    })
+  };
