@@ -30,7 +30,6 @@ exports.postCustomerRegister = async (req, res, next) => {
   const firstname = req.body.firstname;
   const mobile = req.body.mobile;
   const lastname = req.body.lastname;
-  console.log(req.body);
   try {
     const alreadyCustomer = await Customer.findOne({ email: email });
       if (alreadyCustomer) {
@@ -72,8 +71,9 @@ exports.postCustomerRegister = async (req, res, next) => {
 };
 }
 exports.postLogin = (req, res, next) => {
-  const email = req.body.email.toLowerCase();
+  const email = req.body.email;
   const password = req.body.password;
+  // console.log(req.body);
   Customer.findOne({ email: email })
     .then((user) => {
       if (!user) {

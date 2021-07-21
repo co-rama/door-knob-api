@@ -9,6 +9,7 @@ require("dotenv").config();
 
 // ROUTES IMPORTS
 const authRoute = require("./routes/auth-route");
+const tenantRoute = require("./routes/tenant-route");
 
 // OBJECT
 const PORT = process.env.PORT;
@@ -23,9 +24,9 @@ const mongooseOptions = {
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cookie_parser());
-app.use(bodyParser.urlencoded({
-  extended: true
-}));
+// app.use(bodyParser.urlencoded({
+//   extended: true
+// }));
 app.use("/assets", express.static(path.join(__dirname, "assets")));
 app.use((req, res, next) => {
   res.setHeader("Access-Control-Allow-Origin", "*");
@@ -40,6 +41,7 @@ app.use((req, res, next) => {
 
 //ROUTES USAGE
 app.use("/account", authRoute);
+app.use("/tenants", tenantRoute);
 
 app.use("/", (req, res, next) => {
   res.status(200).json({api : "Welcome to Door-knob Backend"});
