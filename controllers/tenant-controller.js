@@ -31,3 +31,16 @@ exports.getAllTenants = async (req, res, next) => {
         next(error);
     }
 }
+exports.deleteTenant = async (req, res, next) => {
+    try {
+        const { tenantId } = req.params;
+        // console.log(tenantId);
+        const deletedTenant = await Tenant.deleteOne({_id: tenantId});
+        if(deletedTenant.deletedCount ==1 ){
+            return res.json({message: "TENANT WAS DELETED", success: true, });
+        }
+        res.json({message: "COULD NOT BE DELETED", deletedTenant})
+    } catch (error) {
+        next(error);
+    }
+}
